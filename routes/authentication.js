@@ -8,19 +8,33 @@ router.get('/', (req, res, next) => {
   res.render('index');
 });
 
+const generateRandomToken = length => {
+  const characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  let token = '';
+  for (let i = 0; i < length; i++) {
+    token += characters[Math.floor(Math.random() * characters.length)];
+  }
+  return token;
+};
+
+const token = generateRandomToken(10);
+
+const 
+
+
 router.get('/sign-up', (req, res, next) => {
   res.render('sign-up');
 });
 
 router.post('/sign-up', (req, res, next) => {
-  const { name, email, password } = req.body;
+  const { email, password, confirmationToken} = req.body;
   bcryptjs
     .hash(password, 10)
     .then(hash => {
       return User.create({
-        name,
         email,
-        passwordHash: hash
+        passwordHash: hash,
+        confirmationToken 
       });
     })
     .then(user => {
