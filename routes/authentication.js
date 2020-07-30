@@ -35,7 +35,7 @@ router.post('/sign-up', (req, res, next) => {
       pass: process.env.NODEMAILER_PASSWORD
     }
   });
-  bcryptjs
+  bcryptjs // creating new user from the sign up form
     .hash(password, 10)
     .then(hash => {
       return User.create({
@@ -66,7 +66,7 @@ router.post('/sign-up', (req, res, next) => {
 
 router.get('/authentication/confirm-email', (req, res, next) => {
   const userToken = req.query.token;
-  User.findOneAndUpdate({ ConfirmationToken: userToken }, { status: 'active' })
+  User.findOneAndUpdate({ confirmationToken: userToken }, { status: 'active' })
     .then(user => {
       res.render('confirmation');
     })
